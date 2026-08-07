@@ -15,19 +15,19 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { name: "Today Hub", href: "/", icon: LayoutDashboard },
-  { name: "Daily Journal", href: "/journal", icon: BookOpen },
-  { name: "Planner & Tasks", href: "/planner", icon: CalendarDays },
-  { name: "Habit Tracker", href: "/habits", icon: CheckSquare },
-  { name: "Bookshelf", href: "/bookshelf", icon: Library },
-  { name: "Wellness & Photos", href: "/wellness", icon: Activity },
+  { name: "پیشخوان امروز", href: "/", icon: LayoutDashboard },
+  { name: "دفترچه روزانه", href: "/journal", icon: BookOpen },
+  { name: "برنامه‌ریزی و کارها", href: "/planner", icon: CalendarDays },
+  { name: "ردیاب عادت‌ها", href: "/habits", icon: CheckSquare },
+  { name: "کتابخانه من", href: "/bookshelf", icon: Library },
+  { name: "سلامت و عکس‌ها", href: "/wellness", icon: Activity },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-slate-900/80 border-r border-slate-800 flex flex-col justify-between h-screen sticky top-0 backdrop-blur-md z-40">
+    <aside className="w-64 bg-slate-900/80 border-l border-slate-800 flex flex-col justify-between h-screen sticky top-0 backdrop-blur-md z-40">
       <div>
         {/* App Logo & Header */}
         <div className="p-6 flex items-center gap-3 border-b border-slate-800/60">
@@ -37,7 +37,7 @@ export function Sidebar() {
           <div>
             <h1 className="font-bold text-lg text-slate-100 tracking-tight">Life OS</h1>
             <p className="text-xs text-sky-400 font-medium flex items-center gap-1">
-              <Bot className="w-3 h-3" /> AI Coach (Gemma)
+              <Bot className="w-3.5 h-3.5" /> مربی هوشمند (Gemma)
             </p>
           </div>
         </div>
@@ -70,10 +70,10 @@ export function Sidebar() {
       <div className="p-4 border-t border-slate-800/60">
         <div className="p-3 rounded-lg bg-slate-800/40 border border-slate-800 text-xs text-slate-400 space-y-1">
           <div className="flex items-center justify-between text-slate-300 font-medium">
-            <span>Local AI Agent</span>
+            <span>هوش مصنوعی محلی</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
           </div>
-          <p className="text-[11px] text-slate-500">Ollama local server • Model: gemma</p>
+          <p className="text-[11px] text-slate-500">سرور Ollama • مدل: Gemma</p>
         </div>
       </div>
     </aside>

@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Activity, Heart, Flame, Footprints, Dumbbell, Upload, Image as ImageIcon } from "lucide-react";
+import { Activity, Heart, Footprints, Dumbbell } from "lucide-react";
+import { toPersianDigits } from "@/lib/utils";
 
 export default function WellnessPage() {
-  const [workout, setWorkout] = useState("Upper Body Hypertrophy (45 mins)");
-  const [supplements, setSupplements] = useState("Creatine 5g, Vitamin D3, Omega 3, Magnesium");
+  const [workout, setWorkout] = useState("تمرین قدرت و بدنسازی (۴۵ دقیقه)");
+  const [supplements, setSupplements] = useState("کراتین، ویتامین D3، امگا ۳، منیزیم");
   const [steps, setSteps] = useState(10420);
   const [saved, setSaved] = useState(false);
 
@@ -19,13 +20,13 @@ export default function WellnessPage() {
       {/* Header */}
       <div className="border-b border-slate-800 pb-6">
         <div className="inline-flex items-center gap-2 text-rose-400 font-semibold text-xs mb-1">
-          <Activity className="w-4 h-4" /> Wellness & Physical Vitality
+          <Activity className="w-4 h-4" /> سلامت جسمانی و شادابی
         </div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">
-          Wellness Log & Photo Gallery
+          ثبت سلامت و تندرستی
         </h1>
         <p className="text-slate-400 text-sm mt-1">
-          Monitor workout intensity, supplement schedules, step goals, and local photo memories.
+          پایش فعالیت ورزشی، مکمل‌های مصرفی، تعداد قدم‌های روزانه و عکس‌های خاطره‌انگیز.
         </p>
       </div>
 
@@ -36,9 +37,9 @@ export default function WellnessPage() {
             <Footprints className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 font-medium">Daily Steps</p>
-            <h3 className="text-2xl font-black text-white">{steps.toLocaleString()}</h3>
-            <span className="text-[11px] text-emerald-400 font-semibold">Goal: 10,000 ✓ Achieved</span>
+            <p className="text-xs text-slate-400 font-medium">قدم‌های امروز</p>
+            <h3 className="text-2xl font-black text-white">{toPersianDigits(steps.toLocaleString())}</h3>
+            <span className="text-[11px] text-emerald-400 font-semibold">هدف: ۱۰,۰۰۰ قدم ✓ محقق شد</span>
           </div>
         </div>
 
@@ -47,9 +48,9 @@ export default function WellnessPage() {
             <Dumbbell className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 font-medium">Workout Status</p>
-            <h3 className="text-lg font-bold text-white">45 min Lift</h3>
-            <span className="text-[11px] text-sky-400 font-semibold">Completed at 08:30 AM</span>
+            <p className="text-xs text-slate-400 font-medium">وضعیت ورزش</p>
+            <h3 className="text-lg font-bold text-white">۴۵ دقیقه بدنسازی</h3>
+            <span className="text-[11px] text-sky-400 font-semibold">تکمیل شده در ۰۸:۳۰ صبح</span>
           </div>
         </div>
 
@@ -58,9 +59,9 @@ export default function WellnessPage() {
             <Heart className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-xs text-slate-400 font-medium">Overall Energy</p>
-            <h3 className="text-2xl font-black text-white">9 / 10</h3>
-            <span className="text-[11px] text-amber-400 font-semibold">Optimal Recovery</span>
+            <p className="text-xs text-slate-400 font-medium">سطح انرژی عمومی</p>
+            <h3 className="text-2xl font-black text-white">{toPersianDigits(9)} از ۱۰</h3>
+            <span className="text-[11px] text-amber-400 font-semibold">بازیابی عالی</span>
           </div>
         </div>
       </div>
@@ -69,11 +70,11 @@ export default function WellnessPage() {
       <div className="glass-card p-6 space-y-6">
         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
           <h2 className="font-bold text-slate-100 text-base flex items-center gap-2">
-            <Activity className="w-5 h-5 text-rose-400" /> Log Today's Workout & Nutrition
+            <Activity className="w-5 h-5 text-rose-400" /> ثبت فعالیت ورزشی و مکمل‌ها
           </h2>
           {saved && (
             <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-              ✓ Log Saved
+              ✓ گزارش ذخیره شد
             </span>
           )}
         </div>
@@ -82,7 +83,7 @@ export default function WellnessPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">
-                Workout Activity & Duration
+                فعالیت ورزشی و زمان تمرین
               </label>
               <input
                 type="text"
@@ -94,7 +95,7 @@ export default function WellnessPage() {
 
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1">
-                Meals & Supplements Tracker
+                وعده‌های غذایی و مکمل‌ها
               </label>
               <input
                 type="text"
@@ -109,7 +110,7 @@ export default function WellnessPage() {
             type="submit"
             className="w-full py-2.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-medium text-sm transition-colors shadow-md shadow-rose-600/20"
           >
-            Update Daily Wellness Log
+            به‌روزرسانی گزارش سلامت
           </button>
         </form>
       </div>

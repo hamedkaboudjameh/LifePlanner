@@ -74,20 +74,20 @@ export default function PlannerPage() {
       {/* Header */}
       <div className="border-b border-slate-800 pb-6">
         <div className="inline-flex items-center gap-2 text-sky-400 font-semibold text-xs mb-1">
-          <CalendarDays className="w-4 h-4" /> Weekly & Daily Schedule
+          <CalendarDays className="w-4 h-4" /> برنامه‌ریزی هفتگی و روزانه
         </div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">
-          Planner & Priority Management
+          مدیریت کارها و اولویت‌بندی
         </h1>
         <p className="text-slate-400 text-sm mt-1">
-          Structure top priorities, categorize tasks, and track completed milestones.
+          اولویت‌های اصلی خود را طبقه‌بندی کنید و کارهای روزانه را با وضوح بالا پیش ببرید.
         </p>
       </div>
 
       {/* Add Task Control Bar */}
       <div className="glass-card p-6 border-sky-500/30">
         <h3 className="text-sm font-bold text-slate-200 mb-3 flex items-center gap-2">
-          <Plus className="w-4 h-4 text-sky-400" /> Add New Planner Task
+          <Plus className="w-4 h-4 text-sky-400" /> افزودن کار جدید
         </h3>
         <form onSubmit={handleAddTask} className="grid grid-cols-1 sm:grid-cols-4 gap-3">
           <input
@@ -95,7 +95,7 @@ export default function PlannerPage() {
             required
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Task title..."
+            placeholder="عنوان کار..."
             className="sm:col-span-2 bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500"
           />
           <select
@@ -103,15 +103,15 @@ export default function PlannerPage() {
             onChange={(e) => setCategory(e.target.value)}
             className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200"
           >
-            <option value="TOP_3">Top 3 Priority</option>
-            <option value="WOULD_BE_NICE">Would Be Nice</option>
-            <option value="GENERAL">General To-Do</option>
+            <option value="TOP_3">۳ اولویت اصلی</option>
+            <option value="WOULD_BE_NICE">خوب است انجام شود</option>
+            <option value="GENERAL">کارهای عمومی</option>
           </select>
           <button
             type="submit"
             className="py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition-colors shadow-md shadow-sky-600/20"
           >
-            Add Task
+            افزودن کار
           </button>
         </form>
       </div>
@@ -122,10 +122,10 @@ export default function PlannerPage() {
         <div className="glass-card p-6 space-y-4 border-amber-500/30">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 className="font-bold text-amber-400 text-sm flex items-center gap-2">
-              <Flame className="w-4 h-4" /> Top 3 Priorities
+              <Flame className="w-4 h-4" /> ۳ اولویت اصلی
             </h3>
             <span className="text-xs font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded">
-              {top3.filter((t) => t.status === "COMPLETED").length}/{top3.length}
+              {top3.filter((t) => t.status === "COMPLETED").length} از {top3.length}
             </span>
           </div>
 
@@ -157,10 +157,10 @@ export default function PlannerPage() {
         <div className="glass-card p-6 space-y-4 border-indigo-500/30">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 className="font-bold text-indigo-400 text-sm flex items-center gap-2">
-              <Target className="w-4 h-4" /> Would Be Nice
+              <Target className="w-4 h-4" /> خوب است انجام شود
             </h3>
             <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded">
-              {wouldBeNice.filter((t) => t.status === "COMPLETED").length}/{wouldBeNice.length}
+              {wouldBeNice.filter((t) => t.status === "COMPLETED").length} از {wouldBeNice.length}
             </span>
           </div>
 
@@ -192,10 +192,10 @@ export default function PlannerPage() {
         <div className="glass-card p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 className="font-bold text-slate-200 text-sm flex items-center gap-2">
-              <Clock className="w-4 h-4 text-slate-400" /> General Tasks
+              <Clock className="w-4 h-4 text-slate-400" /> کارهای عمومی
             </h3>
             <span className="text-xs font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
-              {general.filter((t) => t.status === "COMPLETED").length}/{general.length}
+              {general.filter((t) => t.status === "COMPLETED").length} از {general.length}
             </span>
           </div>
 

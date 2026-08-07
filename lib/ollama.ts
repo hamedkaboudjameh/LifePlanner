@@ -23,21 +23,20 @@ export async function generateOllamaResponse(
       body: JSON.stringify({
         model: model,
         prompt: prompt,
-        system: systemPrompt || "You are an insightful, empathetic, and highly practical AI Life Coach. Provide concise, structured, and actionable advice.",
+        system: systemPrompt || "شما یک مربی هوشمند زندگی (AI Life Coach) دلسوز، الهام‌بخش و با برنامه‌ریزی دقیق هستید. پاسخ‌های خود را کاملاً به زبان فارسی، ساختاریافته و کاربردی ارائه دهید.",
         stream: false,
       }),
     });
 
     if (!response.ok) {
-      throw new Error(`Ollama API error: ${response.statusText}`);
+      throw new Error(`خطای API اولاما: ${response.statusText}`);
     }
 
     const data = await response.json();
-    return data.response?.trim() || "No response generated from AI Coach.";
+    return data.response?.trim() || "پاسخی از مربی هوشمند دریافت نشد.";
   } catch (error) {
-    console.error("Ollama client error:", error);
-    // Fallback message if Ollama is not running locally
-    return `[AI Coach Offline / Connection Note]: Could not connect to Ollama at ${baseUrl}. Ensure Ollama is installed and running with '${model}' model ('ollama run ${model}').`;
+    console.error("خطای ارتباط با Ollama:", error);
+    return `[ارتباط با مربی هوشمند برقرار نشد]: لطفا اطمینان حاصل کنید که سرور Ollama با مدل '${model}' در حال اجرا است ('ollama run ${model}').`;
   }
 }
 
@@ -49,20 +48,20 @@ export async function generateMorningAdvice(data: {
   topTasks?: string[];
 }) {
   const prompt = `
-Morning Journal Data:
-- Gratitude: ${data.gratitude}
-- Intended Accomplishments: ${data.dailyAccomplishments || "N/A"}
-- Excitement Points: ${data.excitementPoints || "N/A"}
-- Emotional Target: ${data.emotionalTarget || "N/A"}
-- Top Scheduled Tasks: ${data.topTasks?.join(", ") || "None listed"}
+اطلاعات یادداشت صبحگاهی:
+- شکرگزاری: ${data.gratitude}
+- دستاوردهای هدف امروز: ${data.dailyAccomplishments || "ثبت نشده"}
+- نقاط هیجان‌انگیز امروز: ${data.excitementPoints || "ثبت نشده"}
+- هدف احساسی امروز: ${data.emotionalTarget || "ثبت نشده"}
+- اولویت‌های اصلی کاری: ${data.topTasks?.join("، ") || "بدون اولویت ثبت شده"}
 
-Based on these morning reflections and top priorities, act as an AI Life Coach and provide:
-1. 💡 **Mindset Focus**: A short 2-sentence empowering theme for today.
-2. 🎯 **Priority Guidance**: Recommended sequence to tackle today's tasks smoothly.
-3. ⚡ **Energy Boost**: 1 practical micro-habit to sustain high energy today.
+به عنوان مربی هوشمند زندگی، توصیه‌های صبحگاهی زیر را به زبان فارسی ارائه دهید:
+۱. 💡 **تمرکز ذهن**: یک جمله انگیزشی برای شروع پرقدرت امروز.
+۲. 🎯 **راهنمای اولویت‌ها**: ترتیب پیشنهادی برای انجام کارهای امروز.
+۳. ⚡ **افزایش انرژی**: یک راهکار کوچک و عمل‌گرایانه برای حفظ انرژی در طول روز.
 `;
 
-  return generateOllamaResponse(prompt, "You are the Morning Advisor for Life OS.");
+  return generateOllamaResponse(prompt, "شما مشاور و مربی صبحگاهی سیستم مدیریت زندگی (Life OS) هستید.");
 }
 
 export async function generateNightlyReview(data: {
@@ -74,21 +73,21 @@ export async function generateNightlyReview(data: {
   moodScale?: number;
 }) {
   const prompt = `
-Nightly Reflection Data:
-- Gratitude: ${data.gratitude}
-- Highlights: ${data.highlights || "N/A"}
-- Standout Memory: ${data.dailyMemory || "N/A"}
-- Growth/Improvement Notes: ${data.selfImprovementNotes || "N/A"}
-- Intention for Tomorrow: ${data.intentionTomorrow || "N/A"}
-- Mood (1-10): ${data.moodScale !== undefined ? `${data.moodScale}/10` : "N/A"}
+اطلاعات بازخورد شبانه:
+- ۳ شکرگزاری: ${data.gratitude}
+- لحظات لبخند و نقاط برجسته: ${data.highlights || "ثبت نشده"}
+- خاطره ماندگار امروز: ${data.dailyMemory || "ثبت نشده"}
+- نکات رشد و بهبود فردی: ${data.selfImprovementNotes || "ثبت نشده"}
+- قصد و هدف فردا: ${data.intentionTomorrow || "ثبت نشده"}
+- میزان خلق‌وخو (۱ تا ۱۰): ${data.moodScale !== undefined ? `${data.moodScale} از ۱۰` : "ثبت نشده"}
 
-Act as an AI Life Coach evaluating tonight's reflection:
-1. 🌟 **Daily Celebration**: Recognize today's wins and positive moments.
-2. 🌱 **Growth Insight**: Constructive takeaway from the self-improvement note.
-3. 🌙 **Wind-down Intent**: Final reassuring advice before sleep to prepare for tomorrow.
+به عنوان مربی هوشمند شبانه، ارزیابی زیر را به زبان فارسی ارائه دهید:
+۱. 🌟 **تقدیر از موفقیت‌های امروز**: تحسین دستاوردها و احساسات مثبت امروز.
+۲. 🌱 **تحلیل مسیر رشد**: نکته سازنده از یادداشت بهبود فردی.
+۳. 🌙 **آمادگی برای آرامش شبانه**: توصیه آرامش‌بخش نهایی قبل از خواب برای شروعی پرانرژی در فردا.
 `;
 
-  return generateOllamaResponse(prompt, "You are the Nightly Reviewer for Life OS.");
+  return generateOllamaResponse(prompt, "شما ارزیاب و مربی شبانه سیستم مدیریت زندگی (Life OS) هستید.");
 }
 
 export async function summarizeBook(data: {
@@ -97,14 +96,14 @@ export async function summarizeBook(data: {
   userNotes?: string;
 }) {
   const prompt = `
-Book: "${data.title}" by ${data.author}
-User's Personal Notes: ${data.userNotes || "None provided"}
+کتاب: "${data.title}" اثر ${data.author}
+یادداشت‌های کاربر: ${data.userNotes || "ثبت نشده"}
 
-Generate a structured summary for this book:
-1. 📌 **Core Thesis**: The 2-sentence main takeaway.
-2. 🔑 **3 Key Actionable Insights**: Bullet points of practical lessons.
-3. 💬 **Memorable Quote Suggestion**: A renowned or representative quote from the book.
+یک خلاصه ساختاریافته به زبان فارسی تولید کنید:
+۱. 📌 **پیام اصلی کتاب**: خلاصه در ۲ جمله کاربردی.
+۲. 🔑 **۳ کلیدواژه و آموزه کاربردی**: به صورت بالت‌پوینت.
+۳. 💬 **جمله برجسته و ارزشمند**: یک نقل‌قول الهام‌بخش یا کلیدی.
 `;
 
-  return generateOllamaResponse(prompt, "You are an expert Executive Book Summarizer.");
+  return generateOllamaResponse(prompt, "شما خلاصه کننده‌ حرفه‌ای کتاب‌ها هستید.");
 }

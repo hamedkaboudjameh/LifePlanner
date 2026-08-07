@@ -4,8 +4,8 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 
 export const metadata: Metadata = {
-  title: "Life OS & AI Coach",
-  description: "Personal daily journaling, planner, habit tracker, bookshelf, and local Ollama AI Coach.",
+  title: "سیستم مدیریت زندگی و مربی هوش مصنوعی | Life OS",
+  description: "مدیریت روزانه، یادداشت‌برداری، برنامه‌ریزی کارها، ردیاب عادت‌ها، کتابخانه شخصی و مربی هوش مصنوعی محلی.",
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="fa" dir="rtl" className="dark">
       <body className="bg-slate-950 text-slate-100 min-h-screen flex antialiased">
         <Sidebar />
         <div className="flex-1 flex flex-col min-w-0">
