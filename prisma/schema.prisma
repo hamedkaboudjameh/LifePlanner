@@ -1,0 +1,178 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==========================================
+// 1. JOURNAL & REFLECTION MODULE
+// ==========================================
+
+model MorningJournal {
+  id                   String      @id @default(uuid())
+  date                 DateTime    @default(now())
+  gratitude            String      // JSON string array or newline separated
+  dailyAccomplishments String?     // Goals for the day
+  excitementPoints     String?     // Things looking forward to
+  emotionalTarget      String?     // Desired emotional state
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  photos               PhotoDump[]
+}
+
+model NightlyReflection {
+  id                   String      @id @default(uuid())
+  date                 DateTime    @default(now())
+  gratitude            String      // 3 items
+  highlights           String?     // Smile moments & highlights
+  dailyMemory          String?     // Standout memory
+  selfImprovementNotes String?     // Areas of growth
+  intentionTomorrow    String?     // Intention set for next day
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  photos               PhotoDump[]
+}
+
+model WellnessLog {
+  id                    String   @id @default(uuid())
+  date                  DateTime @default(now())
+  moodScale             Int      // 1 to 10 scale
+  workoutLog            String?  // Activity description & duration
+  mealSupplementTracker String?  // Meals & supplements log
+  stepsTaken            Int?     @default(0)
+  stepsTowardsGoals     String?  // Qualitative steps taken towards goals
+  challengesFaced       String?  // Challenges faced today
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model PhotoDump {
+  id                  String             @id @default(uuid())
+  fileUrl             String             // Relative URL e.g. /uploads/filename.jpg
+  filePath            String             // Absolute path on server
+  caption             String?
+  date                DateTime           @default(now())
+  morningJournalId    String?
+  nightlyReflectionId String?
+  morningJournal      MorningJournal?    @relation(fields: [morningJournalId], references: [id], onDelete: SetNull)
+  nightlyReflection   NightlyReflection? @relation(fields: [nightlyReflectionId], references: [id], onDelete: SetNull)
+  createdAt           DateTime           @default(now())
+}
+
+// ==========================================
+// 2. PLANNER & DASHBOARD MODULE
+// ==========================================
+
+model Task {
+  id            String    @id @default(uuid())
+  title         String
+  description   String?
+  priority      String    @default("MEDIUM") // HIGH, MEDIUM, LOW
+  category      String    @default("GENERAL") // TOP_3, WOULD_BE_NICE, GENERAL
+  status        String    @default("TODO") // TODO, IN_PROGRESS, COMPLETED
+  dueDate       DateTime?
+  scheduledTime DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model ScheduleItem {
+  id          String   @id @default(uuid())
+  date        DateTime @default(now())
+  startTime   String   // e.g. "08:00"
+  endTime     String   // e.g. "09:00"
+  title       String
+  description String?
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Habit {
+  id          String     @id @default(uuid())
+  title       String
+  description String?
+  frequency   String     @default("DAILY") // DAILY, WEEKLY
+  targetCount Int        @default(1)
+  icon        String?    // Lucide icon name
+  color       String?    // Color class/hex
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  logs        HabitLog[]
+}
+
+model HabitLog {
+  id             String   @id @default(uuid())
+  habitId        String
+  habit          Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  date           DateTime @default(now())
+  completedCount Int      @default(1)
+  createdAt      DateTime @default(now())
+}
+
+model Goal {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  timeframe   String    // WEEKLY, MONTHLY, YEARLY
+  targetDate  DateTime?
+  progress    Float     @default(0.0) // 0 - 100%
+  status      String    @default("IN_PROGRESS") // NOT_STARTED, IN_PROGRESS, COMPLETED
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// ==========================================
+// 3. BOOKSHELF MODULE
+// ==========================================
+
+model Book {
+  id           String      @id @default(uuid())
+  title        String
+  author       String
+  coverImage   String?
+  rating       Int?        // 1 - 5 stars
+  dateFinished DateTime?
+  category     String?     // e.g., Non-Fiction, Self-Help
+  tags         String?     // Comma separated tags
+  status       String      @default("WANT_TO_READ") // WANT_TO_READ, READING, FINISHED
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  review       BookReview?
+}
+
+model BookReview {
+  id               String   @id @default(uuid())
+  bookId           String   @unique
+  book             Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  keyInsights      String?  // Bulleted insights
+  summary          String?  // AI or user summary
+  favoriteQuotes   String?  // Favorite quotes
+  personalThoughts String?  // Personal notes
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model ReadingGoal {
+  id          String   @id @default(uuid())
+  year        Int      @unique
+  targetBooks Int      @default(12)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ==========================================
+// 4. AI COACH AGENT MODULE
+// ==========================================
+
+model AICoachAdvice {
+  id          String   @id @default(uuid())
+  date        DateTime @default(now())
+  type        String   // MORNING_ADVISOR, NIGHTLY_REVIEWER, BOOK_SUMMARIZER
+  promptInput String?  // Context passed to AI
+  response    String   // Insight generated by Ollama (Gemma)
+  createdAt   DateTime @default(now())
+}
