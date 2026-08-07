@@ -14,6 +14,7 @@ import {
   Upload
 } from "lucide-react";
 import Link from "next/link";
+import { MorningJournalForm } from "@/components/journal/morning-form";
 
 interface Task {
   id: string;
@@ -24,13 +25,6 @@ interface Task {
 }
 
 export default function TodayHubPage() {
-  // Morning Journal Form State
-  const [gratitude, setGratitude] = useState("");
-  const [accomplishments, setAccomplishments] = useState("");
-  const [excitement, setExcitement] = useState("");
-  const [emotionalTarget, setEmotionalTarget] = useState("");
-  const [journalSaved, setJournalSaved] = useState(false);
-
   // Tasks State
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -96,27 +90,6 @@ export default function TodayHubPage() {
     }
   }
 
-  async function handleSaveMorningJournal(e: React.FormEvent) {
-    e.preventDefault();
-    if (!gratitude.trim()) return;
-
-    try {
-      await fetch("/api/journal/morning", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gratitude,
-          dailyAccomplishments: accomplishments,
-          excitementPoints: excitement,
-          emotionalTarget,
-        }),
-      });
-      setJournalSaved(true);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   async function handleGetAiAdvice() {
     setLoadingAi(true);
     try {
@@ -128,10 +101,6 @@ export default function TodayHubPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          gratitude,
-          dailyAccomplishments: accomplishments,
-          excitementPoints: excitement,
-          emotionalTarget,
           topTasks: topTaskTitles,
         }),
       });
@@ -189,77 +158,10 @@ export default function TodayHubPage() {
         </div>
       )}
 
-      {/* Main Grid: Journal & Tasks */}
+      {/* Main Grid: Journal Component & Tasks */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Morning Reflection Card */}
-        <div className="glass-card p-6 space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center">
-                <Sun className="w-4 h-4" />
-              </div>
-              <div>
-                <h2 className="font-bold text-slate-100 text-base">یادداشت صبحگاهی</h2>
-                <p className="text-xs text-slate-400">ثبت شکرگزاری و اهداف امروز</p>
-              </div>
-            </div>
-            {journalSaved && (
-              <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-                ✓ ذخیره شد
-              </span>
-            )}
-          </div>
-
-          <form onSubmit={handleSaveMorningJournal} className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">
-                امروز بابت چه ۳ چیزی شکرگزار هستید؟ *
-              </label>
-              <textarea
-                value={gratitude}
-                onChange={(e) => setGratitude(e.target.value)}
-                placeholder="۱. قهوه داغ صبحگاهی&#10;۲. خواب کافی و آرام&#10;۳. پیشرفت در پروژه جدید"
-                rows={3}
-                className="w-full bg-slate-900/90 border border-slate-700/80 rounded-lg px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  دستاورد مهم امروز
-                </label>
-                <input
-                  type="text"
-                  value={accomplishments}
-                  onChange={(e) => setAccomplishments(e.target.value)}
-                  placeholder="تکمیل فاز اول پروژه"
-                  className="w-full bg-slate-900/90 border border-slate-700/80 rounded-lg px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  هدف احساسی امروز
-                </label>
-                <input
-                  type="text"
-                  value={emotionalTarget}
-                  onChange={(e) => setEmotionalTarget(e.target.value)}
-                  placeholder="تمرکز و آرامش"
-                  className="w-full bg-slate-900/90 border border-slate-700/80 rounded-lg px-3.5 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-2.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium text-sm transition-colors shadow-md shadow-sky-600/20"
-            >
-              ذخیره یادداشت صبحگاهی
-            </button>
-          </form>
-        </div>
+        {/* Dedicated Morning Journal Form Component */}
+        <MorningJournalForm />
 
         {/* Priorities & To-Do List */}
         <div className="glass-card p-6 space-y-6">

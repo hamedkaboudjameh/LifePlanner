@@ -29,14 +29,15 @@ export async function generateOllamaResponse(
     });
 
     if (!response.ok) {
-      throw new Error(`خطای API اولاما: ${response.statusText}`);
+      console.warn(`Ollama API returned status ${response.status}: ${response.statusText}`);
+      return `[راهنمایی هوشمند]: سرور Ollama یا مدل '${model}' به نظر آماده نیست. لطفاً فرمان 'ollama run ${model}' را در ترمینال اجرا کنید.`;
     }
 
     const data = await response.json();
     return data.response?.trim() || "پاسخی از مربی هوشمند دریافت نشد.";
   } catch (error) {
     console.error("خطای ارتباط با Ollama:", error);
-    return `[ارتباط با مربی هوشمند برقرار نشد]: لطفا اطمینان حاصل کنید که سرور Ollama با مدل '${model}' در حال اجرا است ('ollama run ${model}').`;
+    return `[ارتباط با مربی هوشمند برقرار نشد]: لطفاً اطمینان حاصل کنید که سرور Ollama در حال اجرا است ('ollama run ${model}').`;
   }
 }
 
